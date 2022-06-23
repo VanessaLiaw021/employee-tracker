@@ -180,7 +180,7 @@ const viewAllRoles = () => {
 
     //Query for viewing all roles
     const queryViewRole = `
-        SELECT role.id, role.title, role.salary, department.name AS department
+        SELECT role.id, role.title, department.name AS department, role.salary
         FROM role 
         INNER JOIN department ON department.id = role.department_id
     `;
