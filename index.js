@@ -21,13 +21,22 @@ connection.connect (err => {
     //Display the connection as id
     console.log("connected as id " + connection.threadId);
 
+    //Display a heading for employee tracker
+    console.log(`
+        --------------------------
+        |                        |
+        |    EMPLOYEE TRACKER    |
+        |                        |
+        --------------------------
+    `);
+
+
     //Call the function to prompt menu selection
     promptMenuSelection();
 });
 
 //Function that prompt the user for menu selection 
 const promptMenuSelection = () => {
-
     //Array of questions to prompt user with a menu selection 
     const questions = [
         {
@@ -63,17 +72,17 @@ const promptMenuSelection = () => {
 
             //Case to view departments
             case "View All Departments":
-                viewDepartments();
+                viewAllDepartments();
                 break;
 
             //Case to view all roles
             case "View All Roles":
-                viewRoles();
+                viewAllRoles();
                 break;
 
             //Case to view all employees
             case "View All Employees":
-                viewEmployees();
+                viewAllEmployees();
                 break;
 
             //Case to view employee by department
@@ -139,7 +148,7 @@ const promptMenuSelection = () => {
 };
 
 //Function to view departments 
-const viewDepartments = () => {
+const viewAllDepartments = () => {
 
     //Query for viewing department
     const queryViewDept = "SELECT * FROM department";
@@ -148,15 +157,50 @@ const viewDepartments = () => {
     connection.query(queryViewDept, (err, data) => {
 
         //If error exist, display the error 
-        if (err) console.log(err);
+        if (err) console.log(err);  
 
-        //Add spacing between the table
-        console.log("\n");
+        //Display a heading for viewing all department
+        console.log(`
+            --------------------------
+            | Viewing All Department |
+            --------------------------
+        `);
 
         //Display the department table 
         console.table(data);
 
         //Call the function to prompt user with menu selection
         promptMenuSelection();
+    });
+};
+
+//Function to view role 
+const viewAllRoles = () => {
+
+    //Query for viewing role
+    const queryViewRole = `
+        SELECT role.id, role.title, role.salary, department.name AS department
+        FROM role 
+        INNER JOIN department ON department.id = role.department_id
+    `;
+
+    //Connect to the employee_db database 
+    connection.query(queryViewRole, (err, data) => {
+
+        //If error exist, display the error 
+        if (err) console.log(err);
+
+        //Display a heading for viewing all roles
+        console.log(`
+            ---------------------
+            | Viewing All Roles |
+            ---------------------
+        `);
+
+        //Display the role table
+        console.table(data);
+
+        //Call the function to prompt user with menu selection
+        promptMenuSelection(); 
     });
 };
