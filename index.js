@@ -438,7 +438,7 @@ const addEmployee = () => {
 const updateEmployeeRole = () => {
 
     //Query for updating employee role 
-    const queryUpdateEmpRole = "UPDATE employee SET role_id = ? WHERE id = ?";
+    const queryUpdateEmpRole = "UPDATE employee SET ? WHERE ?";
 
     //Query for getting a list of employee names 
     const queryEmpList = "SELECT * FROM employee";
@@ -490,7 +490,12 @@ const updateEmployeeRole = () => {
             inquirer.prompt(updateEmpQuestion).then(response => {
 
                 //Connect to employee_db database
-                connection.query(queryUpdateEmpRole, response.updateEmp, response.listRole, err => {
+                connection.query(queryUpdateEmpRole, {
+
+                    first_name: response.updateEmp,
+                    role_id: response.listRole
+
+                }, err => {
 
                     //If error exist, display the error
                     if (err) console.log(err);
