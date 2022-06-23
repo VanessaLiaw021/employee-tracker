@@ -22,6 +22,8 @@ connection.connect (err => {
     //If error exist, display the error 
     if (err) console.log(err);
 
+    console.log(asciiart(config).render());
+
     //Call the function to prompt the menu selection
     promptMenuSelection();
 });
