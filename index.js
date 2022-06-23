@@ -345,13 +345,13 @@ const addRole = () => {
 //Function add employee
 const addEmployee = () => {
 
-    //MySQL query for adding employee
+    //@uery for adding employee
     const queryAddEmp = `INSERT INTO employee SET ?`;
 
-    //MySQL query for getting the list of roles to be used for choices 
+    //Query for getting the list of roles to be used for choices 
     const queryRoleList = "SELECT * FROM role";
 
-    //MySQL query for getting the list of manager name to be used for choices 
+    //Query for getting the list of manager name to be used for choices 
     const queryManagerList = "SELECT * FROM employee";
 
     //Connect to the employee_db Database to get the list of role choices 
@@ -425,6 +425,76 @@ const addEmployee = () => {
 
                     //Display message to let user know the department has been added to the role table 
                     console.log(`${response.firstName} ${response.lastName} is added to role database`);
+
+                    //Call the function to prompt user with menu selection
+                    promptMenuSelection();
+                });
+            });
+        });
+    });
+};
+
+//Function to update employee role 
+const updateEmployeeRole = () => {
+
+    //Query for updating employee role 
+    const queryUpdateEmpRole = "UPDATE employee SET role_id = ? WHERE id = ?";
+
+    //Query for getting a list of employee names 
+    const queryEmpList = "SELECT * FROM employee";
+
+    //Query for getting a list of role name 
+    const queryRoleList = "SELECT * FROM role";
+
+    //Connect to employee_db to get a list of employee names 
+    connection.query(queryEmpList, (err, data) => {
+
+        //If error exist, display the error
+        if (err) console.log(err);
+
+        //Get the list of employees list for choices
+        const empList = data.map(emp => {
+            return { name: emp.first_name && emp.last_name, value: emp.id };
+        });
+
+        //Connect to employee_db to get a list of role names
+        connection.query(queryRoleList, (err, data) => {
+
+            //If error exist, display the error
+            if (err) console.log(err);
+
+            //Get the list of employees list for choices
+            const roleList = data.map(role => {
+                return { name: role.title, value: role.id };
+            });
+
+            //Array of question for list of employee 
+            const updateEmpQuestion = [
+                {
+                    type: "list", 
+                    name: "updateEmp",
+                    message: "Which employee would you like to update their role?",
+                    choices: empList
+                },
+                {
+                    type: "list",
+                    name: "listRole", 
+                    message: "What role do you want to update for this employee?", 
+                    choices: roleList
+                }
+            ];
+
+            //Prompt user for updating the employee role, then it is updated to the database 
+            inquirer.prompt(updateEmpQuestion).then(response => {
+
+                //Connect to employee_db database
+                connection.query(queryUpdateEmpRole, response.updateEmp, response.listRole, err => {
+
+                    //If error exist, display the error
+                    if (err) console.log(err);
+
+                    //Display 
+                    console.log(`${response.updateEmp}'s has been updated`);
 
                     //Call the function to prompt user with menu selection
                     promptMenuSelection();
