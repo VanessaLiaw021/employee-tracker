@@ -150,7 +150,7 @@ const promptMenuSelection = () => {
 //Function to view departments 
 const viewAllDepartments = () => {
 
-    //Query for viewing department
+    //Query for viewing all departments
     const queryViewDept = "SELECT * FROM department";
 
     //Connect to employee_db database
@@ -177,7 +177,7 @@ const viewAllDepartments = () => {
 //Function to view role 
 const viewAllRoles = () => {
 
-    //Query for viewing role
+    //Query for viewing all roles
     const queryViewRole = `
         SELECT role.id, role.title, role.salary, department.name AS department
         FROM role 
@@ -195,6 +195,39 @@ const viewAllRoles = () => {
             ---------------------
             | Viewing All Roles |
             ---------------------
+        `);
+
+        //Display the role table
+        console.table(data);
+
+        //Call the function to prompt user with menu selection
+        promptMenuSelection(); 
+    });
+};
+
+//Function to view employee
+const viewAllEmployees = () => {
+
+    //Query for viewing all employees
+    const queryViewEmp = `
+        SELECT employee.id, employee.first_name, employee.last_name, role.title AS title, 
+            department.name AS department, role.salary AS salary, employee.manager_id AS manager
+        FROM employee 
+        LEFT JOIN role ON role.id = employee.role_id
+        LEFT JOIN department ON department.id = role.department_id
+    `;
+
+    //Connect to the employee_db database 
+    connection.query(queryViewEmp, (err, data) => {
+
+        //If error exist, display the error
+        if (err) console.log(err);
+    
+        //Display a heading for viewing all roles
+        console.log(`
+            -------------------------
+            | Viewing All Employees |
+            -------------------------
         `);
 
         //Display the role table
