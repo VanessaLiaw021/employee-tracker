@@ -290,7 +290,7 @@ const viewEmployeeByDepartments = () => {
     });
 };
 
-//Function to view employee by managers
+//Function to view employee by managers (BOUNS FUNCTIONALITY FUNCTION)
 const viewEmployeeByManagers = () => {};
 
 //Function to update employee role 
@@ -566,7 +566,7 @@ const addEmployee = () => {
     });
 };
 
-//Function to delete department 
+//Function to delete department (BOUNS FUNCTIONALITY FUNCTION)
 const deleteDepartment = () => {
 
     //Query for deleting a department 
@@ -615,7 +615,7 @@ const deleteDepartment = () => {
     });
 };
 
-//Function to delete role 
+//Function to delete role (BOUNS FUNCTIONALITY FUNCTION)
 const deleteRole = () => {
 
     //Query for deleteing a role 
@@ -664,8 +664,8 @@ const deleteRole = () => {
     });
 };
 
-//Function to delete employee 
+//Function to delete employee (BOUNS FUNCTIONALITY FUNCTION)
 const deleteEmployee = () => {};
 
-//Function to view utilized budget of a department
+//Function to view utilized budget of a department (BOUNS FUNCTIONALITY FUNCTION)
 const budgetByDepartment = () => {};
