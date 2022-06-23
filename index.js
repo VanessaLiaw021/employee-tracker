@@ -137,3 +137,26 @@ const promptMenuSelection = () => {
         };
     });
 };
+
+//Function to view departments 
+const viewDepartments = () => {
+
+    //Query for viewing department
+    const queryViewDept = "SELECT * FROM department";
+
+    //Connect to employee_db database
+    connection.query(queryViewDept, (err, data) => {
+
+        //If error exist, display the error 
+        if (err) console.log(err);
+
+        //Add spacing between the table
+        console.log("\n");
+
+        //Display the department table 
+        console.table(data);
+
+        //Call the function to prompt user with menu selection
+        promptMenuSelection();
+    });
+};
