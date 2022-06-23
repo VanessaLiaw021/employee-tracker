@@ -211,7 +211,6 @@ const viewAllEmployees = () => {
         FROM employee 
         LEFT JOIN role ON role.id = employee.role_id
         LEFT JOIN department ON department.id = role.department_id
-        JOIN employee ON employee.manager_id = employee.id
     `;
 
     //Connect to the employee_db database 
@@ -501,13 +500,13 @@ const addEmployee = () => {
         //Connect to the employee_db Database to get the list of managerList
         connection.query(queryManagerList, (err, data) => {
 
+            //Get the list of manager name
+            const managerList = data.map(manager => {
+                return { name: `${manager.first_name} ${manager.last_name}`, value: manager.manager_id }
+            })
+
             //If error exist, display the error
             if (err) console.log(err);
-
-            //Get the list of department list for choices
-            const managerList = data.map(manager => {
-                return { name: manager.manager_id, value: manager.manager_id };
-            });
 
             //Array of question to add employee 
             const employeeQuestions = [
