@@ -22,8 +22,6 @@ connection.connect (err => {
     //If error exist, display the error 
     if (err) console.log(err);
 
-    console.log(asciiart(config).render());
-
     //Call the function to prompt the menu selection
     promptMenuSelection();
 });
@@ -608,7 +606,7 @@ const deleteDepartment = () => {
                 if (err) console.log(err);
 
                 //Display message that department is deleted 
-                console.log(`${response.deleteDept} is successfully deleted`);
+                console.log(`${response.deleteDept} department is successfully deleted`);
 
                 //Call the function to prompt user with menu selection 
                 promptMenuSelection();
@@ -618,7 +616,53 @@ const deleteDepartment = () => {
 };
 
 //Function to delete role 
-const deleteRole = () => {};
+const deleteRole = () => {
+
+    //Query for deleteing a role 
+    const queryDeleteRole = "DELETE FROM role WHERE role.id = ?";
+
+    //Query for getting a list of role name 
+    const queryRoleList = "SELECT * FROM role";
+
+    //Connect to the employee_db to get the list of roles 
+    connection.query(queryRoleList, (err, data) => {
+
+        //If error exist, display the error
+        if (err) console.log(err);
+
+        //Get the list of department list for choices
+        const roleList = data.map(role => {
+            return { name: role.title, value: role.id };
+        });
+
+        //Array of question to delete a role 
+        const deleteRoleQuestion = [
+            {
+                type: "list", 
+                name: "deleteRole", 
+                message: "What role would you like to delete?",
+                choices: roleList
+            }
+        ];
+
+        //Prompt user for deleting a role, then it is deleted from database 
+        inquirer.prompt(deleteRoleQuestion).then(response => {
+
+            //Connect to the employee_db database
+            connection.query(queryDeleteRole, response.deleteRole, err => {
+                
+                //If error exist, display the error
+                if (err) console.log(err);
+
+                //Display message that role is deleted 
+                console.log(`${response.deleteRole} role is successfully deleted`);
+
+                //Call the function to prompt user with menu selection 
+                promptMenuSelection();
+            });
+        });
+    });
+};
 
 //Function to delete employee 
 const deleteEmployee = () => {};
