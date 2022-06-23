@@ -112,13 +112,13 @@ const promptMenuSelection = () => {
                 break;
             
             //Case to update employee role
-            case "Update Employee Role":
+            case "Update Employee's Role":
                 updateEmployeeRole();
                 break;
 
             //Case to update employee manager
-            case "Update Employee Manager":
-                updateEmployeeManagers();
+            case "Update Employee's Manager":
+                updateEmployeeManager();
                 break;
             
             //Case to delete department
@@ -454,7 +454,7 @@ const updateEmployeeRole = () => {
 
         //Get the list of employees list for choices
         const empList = data.map(emp => {
-            return { name: emp.first_name && emp.last_name, value: emp.id };
+            return { name: emp.first_name, value: emp.id };
         });
 
         //Connect to employee_db to get a list of role names
@@ -471,12 +471,14 @@ const updateEmployeeRole = () => {
             //Array of question for list of employee 
             const updateEmpQuestion = [
                 {
+                    //Question for list of employee
                     type: "list", 
                     name: "updateEmp",
                     message: "Which employee would you like to update their role?",
                     choices: empList
                 },
                 {
+                    //Question for list of role to update
                     type: "list",
                     name: "listRole", 
                     message: "What role do you want to update for this employee?", 
