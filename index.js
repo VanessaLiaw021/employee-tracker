@@ -438,6 +438,9 @@ const updateEmployeeRole = () => {
     });
 };
 
+//Function to update employee's manager 
+const updateEmployeeManager = () => {};
+
 //Function to add a department
 const addDepartment = () => {
 
