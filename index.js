@@ -237,7 +237,7 @@ const viewAllEmployees = () => {
 //Function to view employee by department (BOUNS FUNCTINALITY FUNCTION)
 const viewEmployeeByDepartments = () => {
 
-    //Query for viewing employee be department 
+    //Query for viewing employee by department 
     const queryViewEmpByDept = `
         SELECT employee.id, employee.first_name, employee.last_name, role.title AS title, 
             department.name AS department, role.salary AS salary, employee.manager_id AS manager
@@ -291,7 +291,60 @@ const viewEmployeeByDepartments = () => {
 };
 
 //Function to view employee by managers (BOUNS FUNCTIONALITY FUNCTION)
-const viewEmployeeByManagers = () => {};
+const viewEmployeeByManagers = () => {
+
+    //Query for viewing employee by manager
+    const queryViewEmpByManager = `
+        SELECT employee.id, employee.first_name, employee.last_name, role.title AS title, 
+            department.name AS department, role.salary AS salary, employee.manager_id AS manager
+        FROM employee 
+        LEFT JOIN role on role.id = employee.role_id 
+        LEFT JOIN department on department.id = role.department_id
+        WHERE manager_id = ?
+    `;
+
+    //Query for getting a list of managers name 
+    const queryManagetList = "SELECT * FROM employee";
+
+    //Connect to the employee_db database to get the list of manager choices  
+    connection.query(queryManagetList, (err, data) => {
+
+        //If error exist, display error
+        if (err) console.log(err);
+
+        //Get the list of manager name
+        const managerList = data.map(manager => {
+            return { name: `${manager.first_name} ${manager.last_name}`, value: manager.manager_id }
+        });
+
+        //Array of question to view employee by manager 
+        const viewEmpByManagerQuestion = [
+            {
+                type: "list", 
+                name: "empByManager", 
+                message: "Which manager would you like to view the employee by?",
+                choices: managerList
+            }
+        ];
+
+        //Prompt user for viewing employee by manager, then display it 
+        inquirer.prompt(viewEmpByManagerQuestion).then(response => {
+
+            //Connect to the employee_db database 
+            connection.query(queryViewEmpByManager, response.empByManager, (err, data) => {
+
+                //If error exist, display error
+                if (err) console.log(err);
+
+                //Display the employee by manager
+                console.table(data);
+
+                //Call the function to prompt user with menu selection
+                promptMenuSelection(); 
+            });
+        });
+    });
+};
 
 //Function to update employee role 
 const updateEmployeeRole = () => {
@@ -503,7 +556,7 @@ const addEmployee = () => {
             //Get the list of manager name
             const managerList = data.map(manager => {
                 return { name: `${manager.first_name} ${manager.last_name}`, value: manager.manager_id }
-            })
+            });
 
             //If error exist, display the error
             if (err) console.log(err);
