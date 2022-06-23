@@ -4,34 +4,25 @@ const inquirer = require("inquirer");
 const consoleTable = require("console.table");
 
 //Create a connection with mysql database 
-const connection = mysql2.createConnection ({
-    host: "localhost", 
-    port: "3306", 
-    user: "root", 
-    password: "",
-    database: "employee_db"
-});
+const connection = mysql2.createConnection (
+    {
+        host: "localhost", 
+        user: "root", 
+        password: "",
+        database: "employee_db"
+    },
 
-//Connect to mysql database 
+    //Display that show connected to employee_db
+    console.log("Connected to the employee_db database")
+);
+
+// //Connect to mysql database 
 connection.connect (err => {
 
     //If error exist, display the error 
     if (err) console.log(err);
 
-    //Display the connection as id
-    console.log("connected as id " + connection.threadId);
-
-    //Display a heading for employee tracker
-    console.log(`
-        --------------------------
-        |                        |
-        |    EMPLOYEE TRACKER    |
-        |                        |
-        --------------------------
-    `);
-
-
-    //Call the function to prompt menu selection
+    //Call the function to prompt the menu selection
     promptMenuSelection();
 });
 
