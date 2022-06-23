@@ -735,7 +735,53 @@ const deleteRole = () => {
 };
 
 //Function to delete employee (BOUNS FUNCTIONALITY FUNCTION)
-const deleteEmployee = () => {};
+const deleteEmployee = () => {
+
+    //Query for deleting the employee
+    const queryDeleteEmployee = "DELETE FROM employee WHERE employee.id = ?";
+
+    //Query for a list of employee name 
+    const queryEmpList = "SELECT * FROM employee";
+
+    //Connect to the employee_db databse to get the list of employee name 
+    connection.query(queryEmpList, (err, data) => {
+
+        //If error exist, display the error
+        if (err) console.log(err);
+
+        //Get the list of employees list for choices
+        const empList = data.map(emp => {
+            return { name: emp.first_name, value: emp.id };
+        });
+
+        //Array of question to delete a employee 
+        const deleteEmpQuestion = [
+            {
+                type: "list", 
+                name: "deleteEmp", 
+                message: "Which employee would you like to delete?",
+                choices: empList
+            }
+        ];
+
+        //Prompt user for deleting employee question, then it is deleted from database
+        inquirer.prompt(deleteEmpQuestion).then(response => {
+
+            //Connection to the employee_db database 
+            connection.query(queryDeleteEmployee, response.deleteEmp, err => {
+
+                //If error exist, display error
+                if (err) console.log(err);
+
+                //Display message that employee is deleted 
+                console.log(`${response.deleteEmp} is deleted from the database`);
+
+                //Call the function to prompt user with menu selection 
+                promptMenuSelection();
+            });
+        });
+    });
+};
 
 //Function to view utilized budget of a department (BOUNS FUNCTIONALITY FUNCTION)
 const budgetByDepartment = () => {};
