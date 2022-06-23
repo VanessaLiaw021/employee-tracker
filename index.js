@@ -229,6 +229,62 @@ const viewAllEmployees = () => {
     });
 };
 
+//Function to view employee by department (BOUNS FUNCTINALITY FUNCTION)
+const viewEmployeeByDepartments = () => {
+
+    //Query for viewing employee be department 
+    const queryViewEmpByDept = `
+        SELECT employee.id, employee.first_name, employee.last_name, role.title AS title, 
+            department.name AS department, role.salary AS salary, employee.manager_id AS manager
+        FROM employee 
+        LEFT JOIN role on role.id = employee.role_id 
+        LEFT JOIN department on department.id = role.department_id
+        WHERE department.id = ?
+    `;
+
+    //Query for getting the list of department choices 
+    const queryDeptList = "SELECT * FROM department";
+
+    //Connect to the employee_db database to get the list of department choices 
+    connection.query(queryDeptList, (err, data) => {
+        
+        //If error exist, display the error
+        if (err) console.log(err);
+
+        //Get the list of department list for choices
+        const deptList = data.map(department => {
+            return { name: department.name, value: department.id };
+        });
+
+        //Array of question for viewing employee by department 
+        const empByDeptQuestion = [
+            {
+                type: "list", 
+                name: "empByDept",
+                message: "Which department to view the employee be?",
+                choices: deptList
+            }
+        ];
+
+        //Prompt user for viewing employee by department, then display employee by department
+        inquirer.prompt(empByDeptQuestion).then(response => {
+
+            //Connect to the employee_db database 
+            connection.query(queryViewEmpByDept, response.empByDept, (err, data) => {
+
+                //If error exist, display the error
+                if (err) console.log(err);
+
+                //Display the employee by department
+                console.table(data);
+
+                //Call the function to prompt user with menu selection
+                promptMenuSelection(); 
+            });
+        });
+    });
+};
+
 //Function to add a department
 const addDepartment = () => {
 
