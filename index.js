@@ -271,3 +271,72 @@ const addDepartment = () => {
         });
     });
 };
+
+//Function to add a role
+const addRole = () => {
+
+    //Query for adding a role 
+    const queryAddRole = "INSERT INTO role SET ?";
+
+    //Query for getting a list of department name 
+    const queryDepartmentList = "SELECT * FROM department";
+
+    //Connect to the employee_db Database to get the list of department choices
+    connection.query(queryDepartmentList, (err, data) => {
+
+        //If error exist, display the error
+        if (err) console.log(err);
+
+        //Get the list of department list for choices
+        const departmentList = data.map(department => {
+            return { name: department.name, value: department.id };
+        });
+
+        //Array of question to add role 
+        const roleQuestions = [
+            {
+                //Question for role name to add
+                type: "input", 
+                name: "name",
+                message: "What is the name of the role to add?"
+            },
+            {
+                //Question for role salary to add
+                type: "input", 
+                name: "salary", 
+                message: "What is the salary of the role?"
+            },
+            {
+                //Question for role department for the role
+                type: "list", 
+                name: "department",
+                message: "What is the department name for this role?",
+                choices: departmentList
+            }
+        ];
+
+        //Prompt user for adding role, then it is added to role table 
+        inquirer.prompt(roleQuestions).then(response => {
+
+            //Connect to the employee_db Database
+            connection.query (queryAddRole, {
+                
+                //Set the title, salary, and department_id based on user input
+                title: response.name, 
+                salary: response.salary, 
+                department_id: response.department 
+            
+            }, err => {
+
+                //If error exist, display the error
+                if (err) console.log(err);
+
+                //Display message to let user know the department has been added to the role table 
+                console.log(`${response.name} is added to role database`);
+
+                //Call the function to prompt user with menu selection
+                promptMenuSelection();
+            });
+        });
+    });
+};
