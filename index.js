@@ -124,6 +124,11 @@ const promptMenuSelection = () => {
             case "Delete Employee":
                 deleteEmployee();
                 break;
+
+            //Case to delete employee
+            case "Utilized Budget of a department":
+                budgetByDepartment();
+                break;
             
             //Case to end program
             case "End Program":
@@ -284,6 +289,9 @@ const viewEmployeeByDepartments = () => {
         });
     });
 };
+
+//Function to view employee by managers
+const viewEmployeeByManagers = () => {};
 
 //Function to update employee role 
 const updateEmployeeRole = () => {
@@ -557,3 +565,15 @@ const addEmployee = () => {
         });
     });
 };
+
+//Function to delete department 
+const deleteDepartment = () => {};
+
+//Function to delete role 
+const deleteRole = () => {};
+
+//Function to delete employee 
+const deleteEmployee = () => {};
+
+//Function to view utilized budget of a department
+const budgetByDepartment = () => {};
