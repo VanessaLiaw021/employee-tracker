@@ -211,6 +211,7 @@ const viewAllEmployees = () => {
         FROM employee 
         LEFT JOIN role ON role.id = employee.role_id
         LEFT JOIN department ON department.id = role.department_id
+        JOIN employee ON employee.manager_id = employee.id
     `;
 
     //Connect to the employee_db database 
