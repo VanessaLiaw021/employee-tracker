@@ -490,12 +490,13 @@ const updateEmployeeRole = () => {
             inquirer.prompt(updateEmpQuestion).then(response => {
 
                 //Connect to employee_db database
-                connection.query(queryUpdateEmpRole, {
+                connection.query(queryUpdateEmpRole, [
 
-                    first_name: response.updateEmp,
-                    role_id: response.listRole
+                    //Set the role id as the id the user input and update the role
+                    { role_id: response.listRole },
+                    { id: response.updateEmp }
 
-                }, err => {
+                ], err => {
 
                     //If error exist, display the error
                     if (err) console.log(err);
