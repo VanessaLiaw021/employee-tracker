@@ -1,8 +1,7 @@
 //Import required packages 
-import mysql2 from "mysql2";
-import inquirer from "inquirer";
-import consoleTable from "console.table";
-import { connect } from "http2";
+const mysql2 = require("mysql2");
+const inquirer = require("inquirer");
+const consoleTable = require("console.table");
 
 //Create a connection with mysql database 
 const connection = mysql2.createConnection ({
