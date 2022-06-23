@@ -311,7 +311,7 @@ const viewEmployeeByManagers = () => {
     `;
 
     //Query for getting a list of managers name 
-    const queryManagetList = "SELECT * FROM employee";
+    const queryManagetList = "SELECT * FROM employee WHERE manager_id IS NULL";
 
     //Connect to the employee_db database to get the list of manager choices  
     connection.query(queryManagetList, (err, data) => {
