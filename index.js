@@ -237,3 +237,37 @@ const viewAllEmployees = () => {
         promptMenuSelection(); 
     });
 };
+
+//Function to add a department
+const addDepartment = () => {
+
+    //Query to add a department 
+    const queryAddDept = "INSERT INTO department SET name = ?";    
+
+    //Array of question for adding department 
+    const addDeptQuestion = [
+        {
+            //Question for adding department
+            type: "input", 
+            name: "addDept", 
+            message: "What department would you like to add?"
+        }
+    ];
+
+    //Prompt user for adding department, then it is added to department table 
+    inquirer.prompt(addDeptQuestion).then(response => {
+
+        //Connect to employee_db database
+        connection.query(queryAddDept, response.addDept, err => {
+
+            //If error exist, display the error
+            if (err) console.log(err);
+
+            //Display the table
+            console.log(`${response.addDept} is added to the department table`);
+
+            //Call the function to prompt user with menu selection
+            promptMenuSelection(); 
+        });
+    });
+};
