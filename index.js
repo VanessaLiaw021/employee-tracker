@@ -40,12 +40,12 @@ const promptMenuSelection = () => {
                 "View All Roles", 
                 "View All Employees",
                 "View Employee by Department",
-                "View Employee by Manager", 
+                "View Employee by Manager",
+                "Update Employee's Role", 
+                "Update Employee's Manager",
                 "Add Department", 
                 "Add Role",
                 "Add Employee", 
-                "Update Employee's Role",
-                "Update Employee's Manager",
                 "Delete Department", 
                 "Delete Role", 
                 "Delete Employee",
@@ -86,6 +86,16 @@ const promptMenuSelection = () => {
                 viewEmployeeByManagers();
                 break;
 
+            //Case to update employee role
+            case "Update Employee's Role":
+                updateEmployeeRole();
+                break;
+
+            //Case to update employee manager
+            case "Update Employee's Manager":
+                updateEmployeeManager();
+                break;
+
             //Case to add department
             case "Add Department":
                 addDepartment();
@@ -99,16 +109,6 @@ const promptMenuSelection = () => {
             //Case to add employee
             case "Add Employee":
                 addEmployee();
-                break;
-            
-            //Case to update employee role
-            case "Update Employee's Role":
-                updateEmployeeRole();
-                break;
-
-            //Case to update employee manager
-            case "Update Employee's Manager":
-                updateEmployeeManager();
                 break;
             
             //Case to delete department
