@@ -119,6 +119,7 @@ const promptMenuSelection = () => {
             //Case to delete role
             case "Delete Role":
                 deleteRole();
+                break;
             
             //Case to delete employee
             case "Delete Employee":
