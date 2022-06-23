@@ -421,7 +421,7 @@ const addRole = () => {
         if (err) console.log(err);
 
         //Get the list of department list for choices
-        const departmentList = data.map(department => {
+        const deptList = data.map(department => {
             return { name: department.name, value: department.id };
         });
 
@@ -444,7 +444,7 @@ const addRole = () => {
                 type: "list", 
                 name: "department",
                 message: "What is the department name for this role?",
-                choices: departmentList
+                choices: deptList
             }
         ];
 
@@ -567,7 +567,53 @@ const addEmployee = () => {
 };
 
 //Function to delete department 
-const deleteDepartment = () => {};
+const deleteDepartment = () => {
+
+    //Query for deleting a department 
+    const queryDeleteDept = "DELETE FROM department WHERE department.id = ?";
+
+    //Query for getting the list of department choices to delete 
+    const queryDeptList = "SELECT * FROM department";
+
+    //Connect to the employee_db database to get the list of department choices 
+    connection.query(queryDeptList, (err, data) => {
+
+        //If error exist, display the error
+        if (err) console.log(err);
+
+        //Get the list of department list for choices
+        const deptList = data.map(department => {
+            return { name: department.name, value: department.id };
+        });
+
+        //Array of question to delete department 
+        const deleteDeptQuestion = [
+            {
+                type: "list", 
+                name: "deleteDept",
+                message: "Which department would you like to delete?",
+                choices: deptList
+            }
+        ];
+
+        //Prompt user for deleting department, then it is deleted 
+        inquirer.prompt(deleteDeptQuestion).then(response => {
+
+            //Connect to the employee_dv database 
+            connection.query(queryDeleteDept, response.deleteDept, err => {
+
+                //If error exist, display the error
+                if (err) console.log(err);
+
+                //Display message that department is deleted 
+                console.log(`${response.deleteDept} is successfully deleted`);
+
+                //Call the function to prompt user with menu selection 
+                promptMenuSelection();
+            });
+        });
+    });
+};
 
 //Function to delete role 
 const deleteRole = () => {};
