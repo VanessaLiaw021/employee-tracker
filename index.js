@@ -280,6 +280,13 @@ const viewEmployeeByDepartments = () => {
                 //If error exist, display the error
                 if (err) console.log(err);
 
+                //Display a heading for viewing employee by department
+                console.log(`
+                    -----------------------------------
+                    | Viewing Employees By Department |
+                    -----------------------------------
+                `);
+
                 //Display the employee by department
                 console.table(data);
 
@@ -335,6 +342,13 @@ const viewEmployeeByManagers = () => {
 
                 //If error exist, display error
                 if (err) console.log(err);
+
+                //Display a heading for viewing employee by manager
+                console.log(`
+                    --------------------------------
+                    | Viewing Employees By Manager |
+                    --------------------------------
+                `);
 
                 //Display the employee by manager
                 console.table(data);
