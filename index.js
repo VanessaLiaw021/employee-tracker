@@ -2,6 +2,7 @@
 import mysql2 from "mysql2";
 import inquirer from "inquirer";
 import consoleTable from "console.table";
+import { connect } from "http2";
 
 //Create a connection with mysql database 
 const connection = mysql2.createConnection ({
@@ -336,6 +337,98 @@ const addRole = () => {
 
                 //Call the function to prompt user with menu selection
                 promptMenuSelection();
+            });
+        });
+    });
+};
+
+//Function add employee
+const addEmployee = () => {
+
+    //MySQL query for adding employee
+    const queryAddEmp = `INSERT INTO employee SET ?`;
+
+    //MySQL query for getting the list of roles to be used for choices 
+    const queryRoleList = "SELECT * FROM role";
+
+    //MySQL query for getting the list of manager name to be used for choices 
+    const queryManagerList = "SELECT * FROM employee";
+
+    //Connect to the employee_db Database to get the list of role choices 
+    connection.query(queryRoleList, (err, data) => {
+
+        //If error exist, display the error
+        if (err) console.log(err);
+
+        //Get the list of department list for choices
+        const roleList = data.map(role => {
+            return { name: role.title, value: role.id };
+        });
+
+        //Connect to the employee_db Database to get the list of managerList
+        connection.query(queryManagerList, (err, data) => {
+
+            //If error exist, display the error
+            if (err) console.log(err);
+
+            //Get the list of department list for choices
+            const managerList = data.map(manager => {
+                return { name: manager.manager_id, value: manager.manager_id };
+            });
+
+            //Array of question to add employee 
+            const employeeQuestions = [
+                {
+                    //Question for employee first name
+                    type: "input", 
+                    name: "firstName", 
+                    message: "What is the employee's first name?"
+                },
+                {
+                    //Question for employee last name
+                    type: "input",
+                    name: "lastName", 
+                    message: "What is the employee's last name?"
+                },
+                {
+                    //Question for employee role
+                    type: "list", 
+                    name: "role", 
+                    message: "What is the employee's role?",
+                    choices: roleList
+                },
+                {
+                    //Question for employee's manager name
+                    type: "list", 
+                    name: "manager", 
+                    message: "What is the employee's manager name?",
+                    choices: managerList
+                }
+            ];
+
+            //Prompt user for adding role, then it is added to role table 
+            inquirer.prompt(employeeQuestions).then(response => {
+
+                //Connect to the employee_db Database
+                connection.query(queryAddEmp, {
+
+                    //Set the first name, last name, role, and manager based on user input
+                    first_name: response.firstName,
+                    last_name: response.lastName, 
+                    role_id: response.role,
+                    manager_id: response.manager
+
+                }, err => {
+
+                    //If error exist, display erro
+                    if (err) console.log(err);
+
+                    //Display message to let user know the department has been added to the role table 
+                    console.log(`${response.firstName} ${response.lastName} is added to role database`);
+
+                    //Call the function to prompt user with menu selection
+                    promptMenuSelection();
+                });
             });
         });
     });
