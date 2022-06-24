@@ -422,7 +422,7 @@ const updateEmployeeRole = () => {
                     if (err) console.log(err);
 
                     //Display 
-                    console.log(`${response.updateEmp}'s has been updated`);
+                    console.log(`${response.updateEmp} is updated to a new role`);
 
                     //Call the function to prompt user with menu selection
                     promptMenuSelection();
@@ -489,7 +489,7 @@ const updateEmployeeManager = () => {
                 if (err) console.log(err);
 
                 //Display message that employee's new manager is updated
-                console.log(`${response.updateManager} has updated manager as ${response.listManager} as the new manager`);
+                console.log(`${response.updateManager} is updated to a new manager`);
 
                 //Call the function to prompt user with menu selection
                 promptMenuSelection();
