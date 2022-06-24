@@ -3,17 +3,14 @@ const connection = require("./db/connection");
 const inquirer = require("inquirer");
 require("console.table");
 
-//Query for getting the list of department choices 
+//Global Variables to select each table from database
 const queryDeptList = "SELECT * FROM department";
-
-//Query for getting a list of role name 
 const queryRoleList = "SELECT * FROM role";
-
-//Query for getting a list of employee names 
 const queryEmpList = "SELECT * FROM employee";
 
 //Function that prompt the user for menu selection 
 const promptMenuSelection = () => {
+
     //Array of questions to prompt user with a menu selection 
     const questions = [
         {
@@ -813,12 +810,5 @@ const deleteEmployee = () => {
 //Function to view utilized budget of a department (BOUNS FUNCTIONALITY FUNCTION)
 const budgetByDepartment = () => {};
 
-//Function for initialize app 
-const init = () => {
-
-    //Call the function to prompt user with menu selection 
-    promptMenuSelection();
-};
-
-//Call the function for initialize
-init();
+//Call the function to prompt user with menu selection 
+promptMenuSelection();
