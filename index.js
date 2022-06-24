@@ -272,11 +272,11 @@ const viewEmployeeByManagers = () => {
         LEFT JOIN role on role.id = employee.role_id 
         LEFT JOIN department on department.id = role.department_id
         LEFT JOIN employee m ON m.id = employee.manager_id
-        WHERE m.manager_id = ?
+        WHERE manager_id = ?
     `;
-
+    
     //Query for getting a list of managers name 
-    const queryManagetList = "SELECT * FROM employee WHERE manager_id IS NULL";
+    const queryManagetList = "SELECT * FROM employee WHERE manager_Id IS NULL";
 
     //Connect to the employee_db database to get the list of manager choices  
     connection.query(queryManagetList, (err, data) => {
