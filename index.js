@@ -3,7 +3,7 @@ const connection = require("./db/connection");
 const inquirer = require("inquirer");
 require("console.table");
 
-//Global Variables to select each table from database
+//Global variables to select each table from database
 const queryDepartment = "SELECT * FROM department";
 const queryRole = "SELECT * FROM role";
 const queryEmployee = "SELECT * FROM employee";
@@ -272,7 +272,7 @@ const viewEmployeeByManagers = () => {
         LEFT JOIN role on role.id = employee.role_id 
         LEFT JOIN department on department.id = role.department_id
         LEFT JOIN employee m ON m.id = employee.manager_id
-        WHERE manager_id = ?
+        WHERE m.manager_id = ?
     `;
 
     //Query for getting a list of managers name 
@@ -286,7 +286,7 @@ const viewEmployeeByManagers = () => {
 
         //Get the list of manager name
         const managerList = data.map(manager => {
-            return { name: `${manager.first_name} ${manager.last_name}`, value: manager.manager_id }
+            return { name: manager.first_name + " " + manager.last_name, value: manager.manager_id }
         });
 
         //Array of question to view employee by manager 
@@ -336,7 +336,7 @@ const updateEmployeeRole = () => {
 
         //Get the list of employees list for choices
         const empList = data.map(emp => {
-            return { name: `${emp.first_name} ${emp.last_name}`, value: emp.id };
+            return { name: emp.first_name + " " + emp.last_name, value: emp.id };
         });
 
         //Connect to employee_db to get a list of role names
@@ -402,7 +402,7 @@ const updateEmployeeManager = () => {
 
         //Get the list of employees list for choices
         const empList = data.map(emp => {
-            return { name: `${emp.first_name} ${emp.last_name}`, value: emp.id };
+            return { name: emp.first_name + " " + emp.last_name, value: emp.id };
         });
 
         //Array of question to update employee manager 
@@ -570,7 +570,7 @@ const addEmployee = () => {
 
             //Get the list of manager name
             const managerList = data.map(manager => {
-                return { name: `${manager.first_name} ${manager.last_name}`, value: manager.manager_id }
+                return { name: manager.first_name + " " + manager.last_name, value: manager.manager_id }
             });
 
             //If error exist, display the error
@@ -740,7 +740,7 @@ const deleteEmployee = () => {
 
         //Get the list of employees list for choices
         const empList = data.map(emp => {
-            return { name: `${emp.first_name} ${emp.last_name}`, value: emp.id };
+            return { name: emp.first_name + " " + emp.last_name, value: emp.id };
         });
 
         //Array of question to delete a employee 
