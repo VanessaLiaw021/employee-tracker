@@ -4,9 +4,9 @@ const inquirer = require("inquirer");
 require("console.table");
 
 //Global Variables to select each table from database
-const queryDeptList = "SELECT * FROM department";
-const queryRoleList = "SELECT * FROM role";
-const queryEmpList = "SELECT * FROM employee";
+const queryDepartment = "SELECT * FROM department";
+const queryRole = "SELECT * FROM role";
+const queryEmployee = "SELECT * FROM employee";
 
 //Function that prompt the user for menu selection 
 const promptMenuSelection = () => {
@@ -130,11 +130,8 @@ const promptMenuSelection = () => {
 //Function to view departments 
 const viewAllDepartments = () => {
 
-    //Query for viewing all departments
-    const queryViewDept = "SELECT * FROM department";
-
     //Connect to employee_db database
-    connection.query(queryViewDept, (err, data) => {
+    connection.query(queryDepartment, (err, data) => {
 
         //If error exist, display the error 
         if (err) console.log(err);  
@@ -234,7 +231,7 @@ const viewEmployeeByDepartments = () => {
     `;
 
     //Connect to the employee_db database to get the list of department choices 
-    connection.query(queryDeptList, (err, data) => {
+    connection.query(queryDepartment, (err, data) => {
         
         //If error exist, display the error
         if (err) console.log(err);
@@ -352,7 +349,7 @@ const updateEmployeeRole = () => {
     const queryUpdateEmpRole = "UPDATE employee SET ? WHERE ?";
 
     //Connect to employee_db to get a list of employee names 
-    connection.query(queryEmpList, (err, data) => {
+    connection.query(queryEmployee, (err, data) => {
 
         //If error exist, display the error
         if (err) console.log(err);
@@ -363,7 +360,7 @@ const updateEmployeeRole = () => {
         });
 
         //Connect to employee_db to get a list of role names
-        connection.query(queryRoleList, (err, data) => {
+        connection.query(queryRole, (err, data) => {
 
             //If error exist, display the error
             if (err) console.log(err);
@@ -424,7 +421,7 @@ const updateEmployeeManager = () => {
     const queryUpdateEmpManager = "UPDATE employee SET ? WHERE ?";
 
     //Connect to employee_db to get a list of employee names
-    connection.query(queryEmpList, (err, data) => {
+    connection.query(queryEmployee, (err, data) => {
         
         //If error exist, display the error
         if (err) console.log(err);
@@ -521,7 +518,7 @@ const addRole = () => {
     const queryAddRole = "INSERT INTO role SET ?";
 
     //Connect to the employee_db Database to get the list of department choices
-    connection.query(queryDeptList, (err, data) => {
+    connection.query(queryDepartment, (err, data) => {
 
         //If error exist, display the error
         if (err) console.log(err);
@@ -590,7 +587,7 @@ const addEmployee = () => {
     const queryManagerList = "SELECT * FROM employee WHERE manager_id IS NULL";
 
     //Connect to the employee_db Database to get the list of role choices 
-    connection.query(queryRoleList, (err, data) => {
+    connection.query(queryRole, (err, data) => {
 
         //If error exist, display the error
         if (err) console.log(err);
@@ -676,7 +673,7 @@ const deleteDepartment = () => {
     const queryDeleteDept = "DELETE FROM department WHERE department.id = ?";
 
     //Connect to the employee_db database to get the list of department choices 
-    connection.query(queryDeptList, (err, data) => {
+    connection.query(queryDepartment, (err, data) => {
 
         //If error exist, display the error
         if (err) console.log(err);
@@ -722,7 +719,7 @@ const deleteRole = () => {
     const queryDeleteRole = "DELETE FROM role WHERE role.id = ?";
 
     //Connect to the employee_db to get the list of roles 
-    connection.query(queryRoleList, (err, data) => {
+    connection.query(queryRole, (err, data) => {
 
         //If error exist, display the error
         if (err) console.log(err);
@@ -768,7 +765,7 @@ const deleteEmployee = () => {
     const queryDeleteEmployee = "DELETE FROM employee WHERE employee.id = ?";
 
     //Connect to the employee_db databse to get the list of employee name 
-    connection.query(queryEmpList, (err, data) => {
+    connection.query(queryEmployee, (err, data) => {
 
         //If error exist, display the error
         if (err) console.log(err);
