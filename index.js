@@ -136,6 +136,9 @@ const viewAllDepartments = () => {
         //If error exist, display the error 
         if (err) console.log(err);  
 
+        //Add a space above the table
+        console.log("\n");
+
         //Display the department table 
         console.table("Viewing All Department", data);
 
@@ -159,6 +162,9 @@ const viewAllRoles = () => {
 
         //If error exist, display the error 
         if (err) console.log(err);
+
+        //Add a space above the table
+        console.log("\n");
 
         //Display the role table
         console.table("Viewing All Roles", data);
@@ -186,6 +192,9 @@ const viewAllEmployees = () => {
 
         //If error exist, display the error
         if (err) console.log(err);
+
+        //Add a space above the table
+        console.log("\n");
     
         //Display the role table
         console.table("Viewing All Employees", data);
@@ -239,12 +248,8 @@ const viewEmployeeByDepartments = () => {
                 //If error exist, display the error
                 if (err) console.log(err);
 
-                //Display a heading for viewing employee by department
-                console.log(`
-                    -----------------------------------
-                    | Viewing Employees By Department |
-                    -----------------------------------
-                `);
+                //Add a space above the table
+                console.log("\n");
 
                 //Display the employee by department
                 console.table("Viewing Employees By Department", data);
@@ -303,6 +308,9 @@ const viewEmployeeByManagers = () => {
 
                 //If error exist, display error
                 if (err) console.log(err);
+
+                //Add a space above the table
+                console.log("\n");
 
                 //Display the employee by manager
                 console.table("Viewing Employee By Manager", data);
@@ -791,6 +799,9 @@ const budgetByDepartment = () => {
 
         //If error exist, display error
         if (err) console.log(err);
+
+        //Add a space above the table
+        console.log("\n");
 
         //Display the employee by manager
         console.table("Viewing Total Utilized Budget By Department",data);
