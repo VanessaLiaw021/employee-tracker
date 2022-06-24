@@ -1,7 +1,16 @@
 //Import required packages 
 const connection = require("./db/connection");
 const inquirer = require("inquirer");
-const consoleTable = require("console.table");
+require("console.table");
+
+//Query for getting the list of department choices 
+const queryDeptList = "SELECT * FROM department";
+
+//Query for getting a list of role name 
+const queryRoleList = "SELECT * FROM role";
+
+//Query for getting a list of employee names 
+const queryEmpList = "SELECT * FROM employee";
 
 //Function that prompt the user for menu selection 
 const promptMenuSelection = () => {
@@ -227,9 +236,6 @@ const viewEmployeeByDepartments = () => {
         WHERE department.id = ?
     `;
 
-    //Query for getting the list of department choices 
-    const queryDeptList = "SELECT * FROM department";
-
     //Connect to the employee_db database to get the list of department choices 
     connection.query(queryDeptList, (err, data) => {
         
@@ -288,7 +294,7 @@ const viewEmployeeByManagers = () => {
         LEFT JOIN role on role.id = employee.role_id 
         LEFT JOIN department on department.id = role.department_id
         LEFT JOIN employee m ON m.id = employee.manager_id
-        WHERE employee.manager_id = ?
+        WHERE manager_id = ?
     `;
 
     //Query for getting a list of managers name 
@@ -308,6 +314,7 @@ const viewEmployeeByManagers = () => {
         //Array of question to view employee by manager 
         const viewEmpByManagerQuestion = [
             {
+                //Question to view employee by manager
                 type: "list", 
                 name: "empByManager", 
                 message: "Which manager would you like to view the employee by?",
@@ -347,12 +354,6 @@ const updateEmployeeRole = () => {
     //Query for updating employee role 
     const queryUpdateEmpRole = "UPDATE employee SET ? WHERE ?";
 
-    //Query for getting a list of employee names 
-    const queryEmpList = "SELECT * FROM employee";
-
-    //Query for getting a list of role name 
-    const queryRoleList = "SELECT * FROM role";
-
     //Connect to employee_db to get a list of employee names 
     connection.query(queryEmpList, (err, data) => {
 
@@ -361,7 +362,7 @@ const updateEmployeeRole = () => {
 
         //Get the list of employees list for choices
         const empList = data.map(emp => {
-            return { name: emp.first_name, value: emp.id };
+            return { name: `${emp.first_name} ${emp.last_name}`, value: emp.id };
         });
 
         //Connect to employee_db to get a list of role names
@@ -424,9 +425,6 @@ const updateEmployeeManager = () => {
 
     //Query for updating employee role 
     const queryUpdateEmpManager = "UPDATE employee SET ? WHERE ?";
-
-    //Query for getting a list of employee names 
-    const queryEmpList = "SELECT * FROM employee";
 
     //Connect to employee_db to get a list of employee names
     connection.query(queryEmpList, (err, data) => {
@@ -525,11 +523,8 @@ const addRole = () => {
     //Query for adding a role 
     const queryAddRole = "INSERT INTO role SET ?";
 
-    //Query for getting a list of department name 
-    const queryDepartmentList = "SELECT * FROM department";
-
     //Connect to the employee_db Database to get the list of department choices
-    connection.query(queryDepartmentList, (err, data) => {
+    connection.query(queryDeptList, (err, data) => {
 
         //If error exist, display the error
         if (err) console.log(err);
@@ -593,9 +588,6 @@ const addEmployee = () => {
 
     //@uery for adding employee
     const queryAddEmp = `INSERT INTO employee SET ?`;
-
-    //Query for getting the list of roles to be used for choices 
-    const queryRoleList = "SELECT * FROM role";
 
     //Query for getting the list of manager name to be used for choices 
     const queryManagerList = "SELECT * FROM employee WHERE manager_id IS NULL";
@@ -686,9 +678,6 @@ const deleteDepartment = () => {
     //Query for deleting a department 
     const queryDeleteDept = "DELETE FROM department WHERE department.id = ?";
 
-    //Query for getting the list of department choices to delete 
-    const queryDeptList = "SELECT * FROM department";
-
     //Connect to the employee_db database to get the list of department choices 
     connection.query(queryDeptList, (err, data) => {
 
@@ -735,9 +724,6 @@ const deleteRole = () => {
     //Query for deleteing a role 
     const queryDeleteRole = "DELETE FROM role WHERE role.id = ?";
 
-    //Query for getting a list of role name 
-    const queryRoleList = "SELECT * FROM role";
-
     //Connect to the employee_db to get the list of roles 
     connection.query(queryRoleList, (err, data) => {
 
@@ -783,9 +769,6 @@ const deleteEmployee = () => {
 
     //Query for deleting the employee
     const queryDeleteEmployee = "DELETE FROM employee WHERE employee.id = ?";
-
-    //Query for a list of employee name 
-    const queryEmpList = "SELECT * FROM employee";
 
     //Connect to the employee_db databse to get the list of employee name 
     connection.query(queryEmpList, (err, data) => {
