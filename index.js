@@ -410,8 +410,8 @@ const updateEmployeeRole = () => {
             inquirer.prompt(updateEmpQuestion).then(response => {
 
                 //Connect to employee_db database
-                connection.query(queryUpdateEmpRole, [
-
+                connection.query(queryUpdateEmpRole, 
+                [
                     //Set the role id as the id the user input and update the role
                     { role_id: response.listRole },
                     { id: response.updateEmp }
@@ -433,7 +433,67 @@ const updateEmployeeRole = () => {
 };
 
 //Function to update employee's manager 
-const updateEmployeeManager = () => {};
+const updateEmployeeManager = () => {
+
+    //Query for updating employee role 
+    const queryUpdateEmpManager = "UPDATE employee SET ? WHERE ?";
+
+    //Query for getting a list of employee names 
+    const queryEmpList = "SELECT * FROM employee";
+
+    //Connect to employee_db to get a list of employee names
+    connection.query(queryEmpList, (err, data) => {
+        
+        //If error exist, display the error
+        if (err) console.log(err);
+
+        //Get the list of employees list for choices
+        const empList = data.map(emp => {
+            return { name: `${emp.first_name} ${emp.last_name}`, value: emp.id };
+        });
+
+        //Array of question to update employee manager 
+        const updateManagerQuestion = [
+            {
+                //Question for which employee to update
+                type: "list", 
+                name: "updateManager", 
+                message: "Which employee would you like to update the manager?",
+                choices: empList
+            },
+            {
+                //Question for list of manager 
+                type: "list", 
+                name: "newManager", 
+                message: "Who is the employee's new manager?",
+                choices: empList
+            }
+        ];
+
+        //Prompt user for updating manager, then it updates the employee new manager
+        inquirer.prompt(updateManagerQuestion).then(response => {
+
+            //Connect to the employee_db
+            connection.query(queryUpdateEmpManager, 
+            [
+                //Update the employee new manager
+                { manager_id: response.newManager },
+                { id: response.updateManager }
+
+            ], err => {
+
+                //If error exist, display error
+                if (err) console.log(err);
+
+                //Display message that employee's new manager is updated
+                console.log(`${response.updateManager} has updated manager as ${response.listManager} as the new manager`);
+
+                //Call the function to prompt user with menu selection
+                promptMenuSelection();
+            });
+        });
+    });
+};
 
 //Function to add a department
 const addDepartment = () => {
