@@ -7,10 +7,7 @@ const connection = mysql2.createConnection (
         user: "root", 
         password: "",
         database: "employee_db"
-    },
-
-    //Display that show connected to employee_db
-    console.log("Connected to the employee_db database")
+    }
 );
 
 module.exports = connection;
