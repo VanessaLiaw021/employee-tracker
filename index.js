@@ -198,10 +198,11 @@ const viewAllEmployees = () => {
     //Query for viewing all employees
     const queryViewEmp = `
         SELECT employee.id, employee.first_name, employee.last_name, role.title AS title, 
-            department.name AS department, role.salary AS salary, employee.manager_id AS manager
+            department.name AS department, role.salary AS salary, CONCAT(m.first_name, " ", m.last_name) AS manager
         FROM employee 
         LEFT JOIN role ON role.id = employee.role_id
         LEFT JOIN department ON department.id = role.department_id
+        LEFT JOIN employee m ON m.id = employee.manager_id
     `;
 
     //Connect to the employee_db database 
@@ -231,10 +232,11 @@ const viewEmployeeByDepartments = () => {
     //Query for viewing employee by department 
     const queryViewEmpByDept = `
         SELECT employee.id, employee.first_name, employee.last_name, role.title AS title, 
-            department.name AS department, role.salary AS salary, employee.manager_id AS manager
+            department.name AS department, role.salary AS salary, CONCAT(m.first_name, " ", m.last_name) AS manager
         FROM employee 
         LEFT JOIN role on role.id = employee.role_id 
         LEFT JOIN department on department.id = role.department_id
+        LEFT JOIN employee m ON m.id = employee.manager_id
         WHERE department.id = ?
     `;
 
@@ -294,11 +296,12 @@ const viewEmployeeByManagers = () => {
     //Query for viewing employee by manager
     const queryViewEmpByManager = `
         SELECT employee.id, employee.first_name, employee.last_name, role.title AS title, 
-            department.name AS department, role.salary AS salary, employee.manager_id AS manager
+            department.name AS department, role.salary AS salary, CONCAT(m.first_name, " ", m.last_name) AS manager
         FROM employee 
         LEFT JOIN role on role.id = employee.role_id 
         LEFT JOIN department on department.id = role.department_id
-        WHERE manager_id = ?
+        LEFT JOIN employee m ON m.id = employee.manager_id
+        WHERE CONCAT(m.first_name, " ", m.last_name) = ?
     `;
 
     //Query for getting a list of managers name 
