@@ -32,7 +32,7 @@ const promptMenuSelection = () => {
                 "Delete Department", 
                 "Delete Role", 
                 "Delete Employee",
-                "Utilized Budget of a department",
+                "Utilized Budget of a Department",
                 "End Program"
             ]
         }
@@ -274,7 +274,7 @@ const viewEmployeeByManagers = () => {
         LEFT JOIN employee m ON m.id = employee.manager_id
         WHERE manager_id = ?
     `;
-    
+
     //Query for getting a list of managers name 
     const queryManagetList = "SELECT * FROM employee WHERE manager_Id IS NULL";
 
@@ -792,7 +792,7 @@ const budgetByDepartment = () => {
         console.log("\n");
 
         //Display the employee by manager
-        console.table("Viewing Total Utilized Budget By Department",data);
+        console.table("Viewing Total Utilized Budget Of A Department",data);
 
         //Call the function to prompt user with menu selection
         promptMenuSelection(); 
