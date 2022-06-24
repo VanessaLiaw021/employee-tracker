@@ -10,4 +10,5 @@ const connection = mysql2.createConnection (
     }
 );
 
+//Export connection
 module.exports = connection;
