@@ -472,6 +472,9 @@ const updateEmployeeManager = () => {
 
         //Prompt user for updating manager, then it updates the employee new manager
         inquirer.prompt(updateManagerQuestion).then(response => {
+            
+            //If manager id is null, it will set it to that employee's id
+            if (response.newManger === null) response.newManager === response.updateManager;
 
             //Connect to the employee_db
             connection.query(queryUpdateEmpManager, 
