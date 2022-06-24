@@ -210,11 +210,11 @@ const viewEmployeeByDepartments = () => {
     //Query for viewing employee by department 
     const queryViewEmpByDept = `
         SELECT employee.id, employee.first_name, employee.last_name, role.title AS title, 
-            department.name AS department, role.salary AS salary, CONCAT(m.first_name, " ", m.last_name) AS manager
+            department.name AS department, role.salary AS salary, CONCAT(e.first_name, " ", e.last_name) AS manager
         FROM employee 
         LEFT JOIN role on role.id = employee.role_id 
         LEFT JOIN department on department.id = role.department_id
-        LEFT JOIN employee m ON m.id = employee.manager_id
+        LEFT JOIN employee AS e ON e.id = employee.manager_id
         WHERE department.id = ?
     `;
 
@@ -271,12 +271,12 @@ const viewEmployeeByManagers = () => {
         FROM employee 
         LEFT JOIN role on role.id = employee.role_id 
         LEFT JOIN department on department.id = role.department_id
-        LEFT JOIN employee m ON m.id = employee.manager_id
+        LEFT JOIN employee m ON m.id = employee.manager_id 
         WHERE employee.manager_id = ?
     `;
 
     //Query for getting a list of managers name 
-    const queryManagetList = "SELECT * FROM employee WHERE manager_Id IS NULL";
+    const queryManagetList = "SELECT * FROM employee";
 
     //Connect to the employee_db database to get the list of manager choices  
     connection.query(queryManagetList, (err, data) => {
