@@ -272,7 +272,7 @@ const viewEmployeeByManagers = () => {
         LEFT JOIN role on role.id = employee.role_id 
         LEFT JOIN department on department.id = role.department_id
         LEFT JOIN employee m ON m.id = employee.manager_id
-        WHERE manager_id = ?
+        WHERE employee.manager_id = ?
     `;
 
     //Query for getting a list of managers name 
