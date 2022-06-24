@@ -136,15 +136,8 @@ const viewAllDepartments = () => {
         //If error exist, display the error 
         if (err) console.log(err);  
 
-        //Display a heading for viewing all department
-        console.log(`
-            --------------------------
-            | Viewing All Department |
-            --------------------------
-        `);
-
         //Display the department table 
-        console.table(data);
+        console.table("Viewing All Department", data);
 
         //Call the function to prompt user with menu selection
         promptMenuSelection();
@@ -167,15 +160,8 @@ const viewAllRoles = () => {
         //If error exist, display the error 
         if (err) console.log(err);
 
-        //Display a heading for viewing all roles
-        console.log(`
-            ---------------------
-            | Viewing All Roles |
-            ---------------------
-        `);
-
         //Display the role table
-        console.table(data);
+        console.table("Viewing All Roles", data);
 
         //Call the function to prompt user with menu selection
         promptMenuSelection(); 
@@ -201,15 +187,8 @@ const viewAllEmployees = () => {
         //If error exist, display the error
         if (err) console.log(err);
     
-        //Display a heading for viewing all roles
-        console.log(`
-            -------------------------
-            | Viewing All Employees |
-            -------------------------
-        `);
-
         //Display the role table
-        console.table(data);
+        console.table("Viewing All Employees", data);
 
         //Call the function to prompt user with menu selection
         promptMenuSelection(); 
@@ -268,7 +247,7 @@ const viewEmployeeByDepartments = () => {
                 `);
 
                 //Display the employee by department
-                console.table(data);
+                console.table("Viewing Employees By Department", data);
 
                 //Call the function to prompt user with menu selection
                 promptMenuSelection(); 
@@ -325,15 +304,8 @@ const viewEmployeeByManagers = () => {
                 //If error exist, display error
                 if (err) console.log(err);
 
-                //Display a heading for viewing employee by manager
-                console.log(`
-                    --------------------------------
-                    | Viewing Employees By Manager |
-                    --------------------------------
-                `);
-
                 //Display the employee by manager
-                console.table(data);
+                console.table("Viewing Employee By Manager", data);
 
                 //Call the function to prompt user with menu selection
                 promptMenuSelection(); 
@@ -394,7 +366,7 @@ const updateEmployeeRole = () => {
                 //Connect to employee_db database
                 connection.query(queryUpdateEmpRole, 
                 [
-                    //Set the role id as the id the user input and update the role
+                    //Update the employee's role
                     { role_id: response.listRole },
                     { id: response.updateEmp }
 
@@ -805,7 +777,29 @@ const deleteEmployee = () => {
 };
 
 //Function to view utilized budget of a department (BOUNS FUNCTIONALITY FUNCTION)
-const budgetByDepartment = () => {};
+const budgetByDepartment = () => {
+
+    //Query for displaying the total budget by each department 
+    const totalBudgetByDept = `
+        SELECT department.id, department.name AS department, SUM(salary) as budget
+        FROM role
+        INNER JOIN department ON department.id = role.department_id GROUP BY department_id
+    `;
+
+    //Connect to the employee_db to view total budget by department 
+    connection.query(totalBudgetByDept, (err, data) => {
+
+        //If error exist, display error
+        if (err) console.log(err);
+
+        //Display the employee by manager
+        console.table("Viewing Total Utilized Budget By Department",data);
+
+        //Call the function to prompt user with menu selection
+        promptMenuSelection(); 
+
+    });
+};
 
 //Call the function to prompt user with menu selection 
 promptMenuSelection();
