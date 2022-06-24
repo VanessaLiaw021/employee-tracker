@@ -16,16 +16,6 @@ const connection = mysql2.createConnection (
     console.log("Connected to the employee_db database")
 );
 
-// //Connect to mysql database 
-connection.connect (err => {
-
-    //If error exist, display the error 
-    if (err) console.log(err);
-
-    //Call the function to prompt the menu selection
-    promptMenuSelection();
-});
-
 //Function that prompt the user for menu selection 
 const promptMenuSelection = () => {
     //Array of questions to prompt user with a menu selection 
@@ -786,3 +776,13 @@ const deleteEmployee = () => {
 
 //Function to view utilized budget of a department (BOUNS FUNCTIONALITY FUNCTION)
 const budgetByDepartment = () => {};
+
+//Function for initialize app 
+const init = () => {
+
+    //Call the function to prompt user with menu selection 
+    promptMenuSelection();
+};
+
+//Call the function for initialize
+init();
