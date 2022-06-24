@@ -536,7 +536,7 @@ const addRole = () => {
                 if (err) console.log(err);
 
                 //Display message to let user know the department has been added to the role table 
-                console.log(`${response.name} is added to role database`);
+                console.log(`${response.name} is added to role table`);
 
                 //Call the function to prompt user with menu selection
                 promptMenuSelection();
@@ -624,7 +624,7 @@ const addEmployee = () => {
                     if (err) console.log(err);
 
                     //Display message to let user know the department has been added to the role table 
-                    console.log(`${response.firstName} ${response.lastName} is added to role database`);
+                    console.log(`${response.firstName} ${response.lastName} is added to employee table`);
 
                     //Call the function to prompt user with menu selection
                     promptMenuSelection();
