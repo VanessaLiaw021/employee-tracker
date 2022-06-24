@@ -1,20 +1,7 @@
 //Import required packages 
-const mysql2 = require("mysql2");
+const connection = require("./db/connection");
 const inquirer = require("inquirer");
 const consoleTable = require("console.table");
-
-//Create a connection with mysql database 
-const connection = mysql2.createConnection (
-    {
-        host: "localhost", 
-        user: "root", 
-        password: "",
-        database: "employee_db"
-    },
-
-    //Display that show connected to employee_db
-    console.log("Connected to the employee_db database")
-);
 
 //Function that prompt the user for menu selection 
 const promptMenuSelection = () => {
