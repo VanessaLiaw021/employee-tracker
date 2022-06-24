@@ -30,7 +30,10 @@ CREATE TABLE role (
     salary VARCHAR(30) NOT NULL, 
 
     -- Column for role department name as id 
-    department_id INT NOT NULL
+    department_id INT,
+
+    -- Foreign Key for department -- 
+    FOREIGN KEY (department_id) REFERENCES department(id) ON DELETE SET NULL
 );
 
 -- Create the table for employee --
