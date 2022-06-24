@@ -326,7 +326,7 @@ const viewEmployeeByManagers = () => {
 const updateEmployeeRole = () => {
 
     //Query for updating employee role 
-    const queryUpdateEmpRole = "UPDATE employee SET ? WHERE ?";
+    const queryUpdateEmpRole = "UPDATE employee SET role_id = ? WHERE id = ?";
 
     //Connect to employee_db to get a list of employee names 
     connection.query(queryEmployee, (err, data) => {
@@ -372,13 +372,7 @@ const updateEmployeeRole = () => {
             inquirer.prompt(updateEmpQuestion).then(response => {
 
                 //Connect to employee_db database
-                connection.query(queryUpdateEmpRole, 
-                [
-                    //Update the employee's role
-                    { role_id: response.listRole },
-                    { id: response.updateEmp }
-
-                ], err => {
+                connection.query(queryUpdateEmpRole, [response.listRole,response.updateEmp], err => {
 
                     //If error exist, display the error
                     if (err) console.log(err);
@@ -398,7 +392,7 @@ const updateEmployeeRole = () => {
 const updateEmployeeManager = () => {
 
     //Query for updating employee role 
-    const queryUpdateEmpManager = "UPDATE employee SET ? WHERE ?";
+    const queryUpdateEmpManager = "UPDATE employee SET manager_id = ? WHERE id = ?";
 
     //Connect to employee_db to get a list of employee names
     connection.query(queryEmployee, (err, data) => {
@@ -436,13 +430,7 @@ const updateEmployeeManager = () => {
             if (response.newManger === null) response.newManager === response.updateManager;
 
             //Connect to the employee_db
-            connection.query(queryUpdateEmpManager, 
-            [
-                //Update the employee new manager
-                { manager_id: response.newManager },
-                { id: response.updateManager }
-
-            ], err => {
+            connection.query(queryUpdateEmpManager, [response.newManager, response.updateManager], err => {
 
                 //If error exist, display error
                 if (err) console.log(err);
