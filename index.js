@@ -288,7 +288,7 @@ const viewEmployeeByManagers = () => {
         LEFT JOIN role on role.id = employee.role_id 
         LEFT JOIN department on department.id = role.department_id
         LEFT JOIN employee m ON m.id = employee.manager_id
-        WHERE CONCAT(m.first_name, " ", m.last_name) = ?
+        WHERE employee.manager_id = ?
     `;
 
     //Query for getting a list of managers name 
@@ -598,7 +598,7 @@ const addEmployee = () => {
     const queryRoleList = "SELECT * FROM role";
 
     //Query for getting the list of manager name to be used for choices 
-    const queryManagerList = "SELECT * FROM employee";
+    const queryManagerList = "SELECT * FROM employee WHERE manager_id IS NULL";
 
     //Connect to the employee_db Database to get the list of role choices 
     connection.query(queryRoleList, (err, data) => {
@@ -795,7 +795,7 @@ const deleteEmployee = () => {
 
         //Get the list of employees list for choices
         const empList = data.map(emp => {
-            return { name: emp.first_name, value: emp.id };
+            return { name: `${emp.first_name} ${emp.last_name}`, value: emp.id };
         });
 
         //Array of question to delete a employee 
