@@ -272,7 +272,7 @@ const viewEmployeeByManagers = () => {
         LEFT JOIN role on role.id = employee.role_id 
         LEFT JOIN department on department.id = role.department_id
         LEFT JOIN employee m ON m.id = employee.manager_id 
-        WHERE employee.manager_id = ?
+        WHERE m.manager_id = ?
     `;
 
     //Query for getting a list of managers name 
@@ -570,7 +570,7 @@ const addEmployee = () => {
 
             //Get the list of manager name
             const managerList = data.map(manager => {
-                return { name: manager.first_name + " " + manager.last_name, value: manager.manager_id }
+                return { name: manager.first_name + " " + manager.last_name, value: manager.id }
             });
 
             //If error exist, display the error
