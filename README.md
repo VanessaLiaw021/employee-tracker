@@ -50,7 +50,7 @@ npm i mysql2
 This installation will prompt the menu selection and interact with it in terminal 
 
 ```
-npm i inquirer
+npm i inquirer@8.2.4
 ```
 
 This installation will display a foramtted table 
@@ -89,7 +89,7 @@ This is a sample of a few menu selection
 
 - [GitHub Repo](https://github.com/VanessaLiaw021/employee-tracker)
 
-- [Demo]()
+- [Demo](https://drive.google.com/file/d/18cgpsEDhZt_8cx7xqGqAdcWTLanwhcE0/view)
 
 ## Authors and Acknowledgement
 
