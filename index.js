@@ -1,6 +1,5 @@
 //Import required packages 
 const connection = require("./utils/connection");
-const promptQuestion = require("./utils/prompts");
 const inquirer = require("inquirer");
 require("console.table");
 
@@ -229,9 +228,19 @@ const viewEmployeeByDepartments = () => {
         const deptList = data.map(department => {
             return { name: department.name, value: department.id };
         });
+        
+        //Array of question for viewing employee by department 
+        const empByDeptQuestion = [
+            {
+                type: "list", 
+                name: "empByDept",
+                message: "Which department to view the employee be?",
+                choices: deptList
+            }
+        ];
 
         //Prompt user for viewing employee by department, then display employee by department
-        inquirer.prompt(promptQuestion.viewEmpByDept()).then(response => {
+        inquirer.prompt(empByDeptQuestion).then(response => {
 
             //Connect to the employee_db database 
             connection.query(queryViewEmpByDept, response.empByDept, (err, data) => {
@@ -279,6 +288,17 @@ const viewEmployeeByManagers = () => {
         const managerList = data.map(manager => {
             return { name: manager.first_name + " " + manager.last_name, value: manager.manager_id }
         });
+
+        //Array of question to view employee by manager 
+        const viewEmpByManagerQuestion = [
+            {
+                //Question to view employee by manager
+                type: "list", 
+                name: "empByManager", 
+                message: "Which manager would you like to view the employee by?",
+                choices: managerList
+            }
+        ];
 
         //Prompt user for viewing employee by manager, then display it 
         inquirer.prompt(viewEmpByManagerQuestion).then(response => {
@@ -330,8 +350,26 @@ const updateEmployeeRole = () => {
                 return { name: role.title, value: role.id };
             });
 
+            //Array of question for list of employee 
+            const updateEmpQuestion = [
+                {
+                    //Question for list of employee
+                    type: "list", 
+                    name: "updateEmp",
+                    message: "Which employee would you like to update their role?",
+                    choices: empList
+                },
+                {
+                    //Question for list of role to update
+                    type: "list",
+                    name: "listRole", 
+                    message: "What role do you want to update for this employee?", 
+                    choices: roleList
+                }
+            ];
+
             //Prompt user for updating the employee role, then it is updated to the database 
-            inquirer.prompt(prompts.updateEmpRole(empList, roleList)).then(response => {
+            inquirer.prompt(updateEmpQuestion).then(response => {
 
                 //Connect to employee_db database
                 connection.query(queryUpdateEmpRole, [response.listRole,response.updateEmp], err => {
@@ -367,8 +405,26 @@ const updateEmployeeManager = () => {
             return { name: emp.first_name + " " + emp.last_name, value: emp.id };
         });
 
+         //Array of question to update employee manager 
+        const updateManagerQuestion = [
+            {
+                //Question for which employee to update
+                type: "list", 
+                name: "updateManager", 
+                message: "Which employee would you like to update the manager?",
+                choices: employeeList
+            },
+            {
+                //Question for list of manager 
+                type: "list", 
+                name: "newManager", 
+                message: "Who is the employee's new manager?",
+                choices: employeeList
+            }
+        ];
+
         //Prompt user for updating manager, then it updates the employee new manager
-        inquirer.prompt(prompts.updateEmpManager(empList)).then(response => {
+        inquirer.prompt(updateManagerQuestion).then(response => {
             
             //If manager id is null, it will set it to that employee's id
             if (response.newManger === null) response.newManager === response.updateManager;
@@ -393,8 +449,8 @@ const updateEmployeeManager = () => {
 const addDepartment = () => {
 
     //Query to add a department 
-    const queryAddDept = "INSERT INTO department SET name = ?";   
-
+    const queryAddDept = "INSERT INTO department SET name = ?"; 
+    
     //Array of question for adding department 
     const addDeptQuestion = [
         {
