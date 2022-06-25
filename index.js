@@ -110,7 +110,7 @@ const promptMenuSelection = () => {
                 break;
 
             //Case to delete employee
-            case "Utilized Budget of a department":
+            case "Utilized Budget of a Department":
                 budgetByDepartment();
                 break;
             
@@ -378,7 +378,7 @@ const updateEmployeeRole = () => {
                     if (err) console.log(err);
 
                     //Display 
-                    console.log(`${response.updateEmp} is updated to a new role`);
+                    console.log(`The employee is updated to a new role`);
 
                     //Call the function to prompt user with menu selection
                     promptMenuSelection();
@@ -436,7 +436,7 @@ const updateEmployeeManager = () => {
                 if (err) console.log(err);
 
                 //Display message that employee's new manager is updated
-                console.log(`${response.updateManager} is updated to a new manager`);
+                console.log(`The employee is updated to a new manager`);
 
                 //Call the function to prompt user with menu selection
                 promptMenuSelection();
@@ -471,7 +471,7 @@ const addDepartment = () => {
             if (err) console.log(err);
 
             //Display the table
-            console.log(`${response.addDept} is added to the department table`);
+            console.log(`The department is added to the department table`);
 
             //Call the function to prompt user with menu selection
             promptMenuSelection(); 
@@ -536,7 +536,7 @@ const addRole = () => {
                 if (err) console.log(err);
 
                 //Display message to let user know the department has been added to the role table 
-                console.log(`${response.name} is added to role table`);
+                console.log(`The role is added to role table`);
 
                 //Call the function to prompt user with menu selection
                 promptMenuSelection();
@@ -624,7 +624,7 @@ const addEmployee = () => {
                     if (err) console.log(err);
 
                     //Display message to let user know the department has been added to the role table 
-                    console.log(`${response.firstName} ${response.lastName} is added to employee table`);
+                    console.log(`The new employee is added to employee table`);
 
                     //Call the function to prompt user with menu selection
                     promptMenuSelection();
@@ -671,7 +671,7 @@ const deleteDepartment = () => {
                 if (err) console.log(err);
 
                 //Display message that department is deleted 
-                console.log(`${response.deleteDept} department is successfully deleted`);
+                console.log(`The department is successfully deleted`);
 
                 //Call the function to prompt user with menu selection 
                 promptMenuSelection();
@@ -717,7 +717,7 @@ const deleteRole = () => {
                 if (err) console.log(err);
 
                 //Display message that role is deleted 
-                console.log(`${response.deleteRole} role is successfully deleted`);
+                console.log(`The role is successfully deleted`);
 
                 //Call the function to prompt user with menu selection 
                 promptMenuSelection();
@@ -763,7 +763,7 @@ const deleteEmployee = () => {
                 if (err) console.log(err);
 
                 //Display message that employee is deleted 
-                console.log(`${response.deleteEmp} is deleted from the database`);
+                console.log(`The employee is deleted from the database`);
 
                 //Call the function to prompt user with menu selection 
                 promptMenuSelection();
@@ -779,7 +779,7 @@ const budgetByDepartment = () => {
     const totalBudgetByDept = `
         SELECT department.id, department.name AS department, SUM(salary) as budget
         FROM role
-        INNER JOIN department ON department.id = role.department_id GROUP BY department_id
+        INNER JOIN department ON department.id = role.department_id GROUP BY department.id
     `;
 
     //Connect to the employee_db to view the total budget by department
@@ -792,7 +792,7 @@ const budgetByDepartment = () => {
         console.log("\n");
 
         //Display the employee by manager
-        console.table("Viewing Total Utilized Budget Of A Department",data);
+        console.table("Viewing Total Utilized Budget Of A Department", data);
 
         //Call the function to prompt user with menu selection
         promptMenuSelection(); 
