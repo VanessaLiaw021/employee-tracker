@@ -429,6 +429,9 @@ const updateEmployeeManager = () => {
             //If manager id is null, it will set it to that employee's id
             if (response.newManger === null) response.newManager === response.updateManager;
 
+            //If manager is assign to themselves, it will return null
+            if (response.newManager === response.updateManager) response.newManager = null;
+
             //Connect to the employee_db to update employee by manager
             connection.query(queryUpdateEmpManager, [response.newManager, response.updateManager], err => {
 
