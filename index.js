@@ -130,7 +130,7 @@ const promptMenuSelection = () => {
 //Function to view departments 
 const viewAllDepartments = () => {
 
-    //Connect to employee_db database
+    //Connect to employee_db database to view department
     connection.query(queryDepartment, (err, data) => {
 
         //If error exist, display the error 
@@ -157,7 +157,7 @@ const viewAllRoles = () => {
         INNER JOIN department ON department.id = role.department_id
     `;
 
-    //Connect to the employee_db database 
+    //Connect to the employee_db database to view role 
     connection.query(queryViewRole, (err, data) => {
 
         //If error exist, display the error 
@@ -187,7 +187,7 @@ const viewAllEmployees = () => {
         LEFT JOIN employee m ON m.id = employee.manager_id
     `;
 
-    //Connect to the employee_db database 
+    //Connect to the employee_db database to view employee
     connection.query(queryViewEmp, (err, data) => {
 
         //If error exist, display the error
@@ -218,7 +218,7 @@ const viewEmployeeByDepartments = () => {
         WHERE department.id = ?
     `;
 
-    //Connect to the employee_db database to get the list of department choices 
+    //Connect to the employee_db database to get the list of department names
     connection.query(queryDepartment, (err, data) => {
         
         //If error exist, display the error
@@ -242,7 +242,7 @@ const viewEmployeeByDepartments = () => {
         //Prompt user for viewing employee by department, then display employee by department
         inquirer.prompt(empByDeptQuestion).then(response => {
 
-            //Connect to the employee_db database 
+            //Connect to the employee_db database to view employee by department 
             connection.query(queryViewEmpByDept, response.empByDept, (err, data) => {
 
                 //If error exist, display the error
@@ -278,7 +278,7 @@ const viewEmployeeByManagers = () => {
     //Query for getting a list of managers name 
     const queryManagetList = "SELECT * FROM employee WHERE manager_id IS NULL";
 
-    //Connect to the employee_db database to get the list of manager choices  
+    //Connect to the employee_db database to get the list of manager names  
     connection.query(queryManagetList, (err, data) => {
 
         //If error exist, display error
@@ -303,7 +303,7 @@ const viewEmployeeByManagers = () => {
         //Prompt user for viewing employee by manager, then display it 
         inquirer.prompt(viewEmpByManagerQuestion).then(response => {
 
-            //Connect to the employee_db database 
+            //Connect to the employee_db database to view employee by manager
             connection.query(queryViewEmpByManager, response.empByManager, (err, data) => {
 
                 //If error exist, display error
@@ -371,7 +371,7 @@ const updateEmployeeRole = () => {
             //Prompt user for updating the employee role, then it is updated to the database 
             inquirer.prompt(updateEmpQuestion).then(response => {
 
-                //Connect to employee_db database
+                //Connect to employee_db database to update employee role
                 connection.query(queryUpdateEmpRole, [response.listRole, response.updateEmp], err => {
 
                     //If error exist, display the error
@@ -429,7 +429,7 @@ const updateEmployeeManager = () => {
             //If manager id is null, it will set it to that employee's id
             if (response.newManger === null) response.newManager === response.updateManager;
 
-            //Connect to the employee_db
+            //Connect to the employee_db to update employee by manager
             connection.query(queryUpdateEmpManager, [response.newManager, response.updateManager], err => {
 
                 //If error exist, display error
@@ -464,7 +464,7 @@ const addDepartment = () => {
     //Prompt user for adding department, then it is added to department table 
     inquirer.prompt(addDeptQuestion).then(response => {
 
-        //Connect to employee_db database
+        //Connect to employee_db database to add department
         connection.query(queryAddDept, response.addDept, err => {
 
             //If error exist, display the error
@@ -485,7 +485,7 @@ const addRole = () => {
     //Query for adding a role 
     const queryAddRole = "INSERT INTO role SET ?";
 
-    //Connect to the employee_db Database to get the list of department choices
+    //Connect to the employee_db Database to get the list of department names
     connection.query(queryDepartment, (err, data) => {
 
         //If error exist, display the error
@@ -522,7 +522,7 @@ const addRole = () => {
         //Prompt user for adding role, then it is added to role table 
         inquirer.prompt(roleQuestions).then(response => {
 
-            //Connect to the employee_db Database
+            //Connect to the employee_db Database to add role
             connection.query (queryAddRole, {
                 
                 //Set the title, salary, and department_id based on user input
@@ -554,7 +554,7 @@ const addEmployee = () => {
     //Query for getting the list of manager name to be used for choices 
     const queryManagerList = "SELECT * FROM employee WHERE manager_id IS NULL";
 
-    //Connect to the employee_db Database to get the list of role choices 
+    //Connect to the employee_db Database to get the list of role name
     connection.query(queryRole, (err, data) => {
 
         //If error exist, display the error
@@ -565,7 +565,7 @@ const addEmployee = () => {
             return { name: role.title, value: role.id };
         });
 
-        //Connect to the employee_db Database to get the list of managerList
+        //Connect to the employee_db Database to get the list of manager name
         connection.query(queryManagerList, (err, data) => {
 
             //Get the list of manager name
@@ -609,7 +609,7 @@ const addEmployee = () => {
             //Prompt user for adding role, then it is added to role table 
             inquirer.prompt(employeeQuestions).then(response => {
 
-                //Connect to the employee_db Database
+                //Connect to the employee_db Database to add employee
                 connection.query(queryAddEmp, {
 
                     //Set the first name, last name, role, and manager based on user input
@@ -640,7 +640,7 @@ const deleteDepartment = () => {
     //Query for deleting a department 
     const queryDeleteDept = "DELETE FROM department WHERE department.id = ?";
 
-    //Connect to the employee_db database to get the list of department choices 
+    //Connect to the employee_db database to get the list of department name
     connection.query(queryDepartment, (err, data) => {
 
         //If error exist, display the error
@@ -664,7 +664,7 @@ const deleteDepartment = () => {
         //Prompt user for deleting department, then it is deleted 
         inquirer.prompt(deleteDeptQuestion).then(response => {
 
-            //Connect to the employee_dv database 
+            //Connect to the employee_db database to delete department
             connection.query(queryDeleteDept, response.deleteDept, err => {
 
                 //If error exist, display the error
@@ -710,7 +710,7 @@ const deleteRole = () => {
         //Prompt user for deleting a role, then it is deleted from database 
         inquirer.prompt(deleteRoleQuestion).then(response => {
 
-            //Connect to the employee_db database
+            //Connect to the employee_db database to delete role
             connection.query(queryDeleteRole, response.deleteRole, err => {
                 
                 //If error exist, display the error
@@ -732,7 +732,7 @@ const deleteEmployee = () => {
     //Query for deleting the employee
     const queryDeleteEmployee = "DELETE FROM employee WHERE employee.id = ?";
 
-    //Connect to the employee_db databse to get the list of employee name 
+    //Connect to the employee_db database to get the list of employee names 
     connection.query(queryEmployee, (err, data) => {
 
         //If error exist, display the error
@@ -756,7 +756,7 @@ const deleteEmployee = () => {
         //Prompt user for deleting employee question, then it is deleted from database
         inquirer.prompt(deleteEmpQuestion).then(response => {
 
-            //Connection to the employee_db database 
+            //Connection to the employee_db database to delete the employee
             connection.query(queryDeleteEmployee, response.deleteEmp, err => {
 
                 //If error exist, display error
@@ -782,7 +782,7 @@ const budgetByDepartment = () => {
         INNER JOIN department ON department.id = role.department_id GROUP BY department_id
     `;
 
-    //Connect to the employee_db to view total budget by department 
+    //Connect to the employee_db to view the total budget by department
     connection.query(totalBudgetByDept, (err, data) => {
 
         //If error exist, display error
@@ -796,7 +796,6 @@ const budgetByDepartment = () => {
 
         //Call the function to prompt user with menu selection
         promptMenuSelection(); 
-
     });
 };
 
