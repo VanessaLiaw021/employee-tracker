@@ -372,7 +372,7 @@ const updateEmployeeRole = () => {
             inquirer.prompt(updateEmpQuestion).then(response => {
 
                 //Connect to employee_db database
-                connection.query(queryUpdateEmpRole, [response.listRole,response.updateEmp], err => {
+                connection.query(queryUpdateEmpRole, [response.listRole, response.updateEmp], err => {
 
                     //If error exist, display the error
                     if (err) console.log(err);
@@ -412,14 +412,14 @@ const updateEmployeeManager = () => {
                 type: "list", 
                 name: "updateManager", 
                 message: "Which employee would you like to update the manager?",
-                choices: employeeList
+                choices: empList
             },
             {
                 //Question for list of manager 
                 type: "list", 
                 name: "newManager", 
                 message: "Who is the employee's new manager?",
-                choices: employeeList
+                choices: empList
             }
         ];
 
