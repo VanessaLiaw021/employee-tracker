@@ -271,8 +271,8 @@ const viewEmployeeByManagers = () => {
         FROM employee 
         LEFT JOIN role on role.id = employee.role_id 
         LEFT JOIN department on department.id = role.department_id
-        LEFT JOIN employee m ON m.id = employee.manager_id 
-        WHERE m.manager_id = ?
+        LEFT JOIN employee AS m ON m.id = employee.manager_id 
+        WHERE m.id = ?
     `;
 
     //Query for getting a list of managers name 
@@ -286,7 +286,7 @@ const viewEmployeeByManagers = () => {
 
         //Get the list of manager name
         const managerList = data.map(manager => {
-            return { name: manager.first_name + " " + manager.last_name, value: manager.manager_id }
+            return { name: manager.first_name + " " + manager.last_name, value: manager.id }
         });
 
         //Array of question to view employee by manager 
