@@ -1,5 +1,6 @@
 //Import required packages 
-const connection = require("./db/connection");
+const connection = require("./utils/connection");
+const promptQuestion = require("./utils/prompts");
 const inquirer = require("inquirer");
 require("console.table");
 
@@ -229,18 +230,8 @@ const viewEmployeeByDepartments = () => {
             return { name: department.name, value: department.id };
         });
 
-        //Array of question for viewing employee by department 
-        const empByDeptQuestion = [
-            {
-                type: "list", 
-                name: "empByDept",
-                message: "Which department to view the employee be?",
-                choices: deptList
-            }
-        ];
-
         //Prompt user for viewing employee by department, then display employee by department
-        inquirer.prompt(empByDeptQuestion).then(response => {
+        inquirer.prompt(promptQuestion.viewEmpByDept()).then(response => {
 
             //Connect to the employee_db database 
             connection.query(queryViewEmpByDept, response.empByDept, (err, data) => {
@@ -276,7 +267,7 @@ const viewEmployeeByManagers = () => {
     `;
 
     //Query for getting a list of managers name 
-    const queryManagetList = "SELECT * FROM employee";
+    const queryManagetList = "SELECT * FROM employee WHERE manager_id IS NULL";
 
     //Connect to the employee_db database to get the list of manager choices  
     connection.query(queryManagetList, (err, data) => {
@@ -288,17 +279,6 @@ const viewEmployeeByManagers = () => {
         const managerList = data.map(manager => {
             return { name: manager.first_name + " " + manager.last_name, value: manager.manager_id }
         });
-
-        //Array of question to view employee by manager 
-        const viewEmpByManagerQuestion = [
-            {
-                //Question to view employee by manager
-                type: "list", 
-                name: "empByManager", 
-                message: "Which manager would you like to view the employee by?",
-                choices: managerList
-            }
-        ];
 
         //Prompt user for viewing employee by manager, then display it 
         inquirer.prompt(viewEmpByManagerQuestion).then(response => {
@@ -323,127 +303,91 @@ const viewEmployeeByManagers = () => {
 };
 
 //Function to update employee role 
-const updateEmployeeRole = () => {
+// const updateEmployeeRole = () => {
 
-    //Query for updating employee role 
-    const queryUpdateEmpRole = "UPDATE employee SET role_id = ? WHERE id = ?";
+//     //Query for updating employee role 
+//     const queryUpdateEmpRole = "UPDATE employee SET role_id = ? WHERE id = ?";
 
-    //Connect to employee_db to get a list of employee names 
-    connection.query(queryEmployee, (err, data) => {
+//     //Connect to employee_db to get a list of employee names 
+//     connection.query(queryEmployee, (err, data) => {
 
-        //If error exist, display the error
-        if (err) console.log(err);
+//         //If error exist, display the error
+//         if (err) console.log(err);
 
-        //Get the list of employees list for choices
-        const empList = data.map(emp => {
-            return { name: emp.first_name + " " + emp.last_name, value: emp.id };
-        });
+//         //Get the list of employees list for choices
+//         const empList = data.map(emp => {
+//             return { name: emp.first_name + " " + emp.last_name, value: emp.id };
+//         });
 
-        //Connect to employee_db to get a list of role names
-        connection.query(queryRole, (err, data) => {
+//         //Connect to employee_db to get a list of role names
+//         connection.query(queryRole, (err, data) => {
 
-            //If error exist, display the error
-            if (err) console.log(err);
+//             //If error exist, display the error
+//             if (err) console.log(err);
 
-            //Get the list of employees list for choices
-            const roleList = data.map(role => {
-                return { name: role.title, value: role.id };
-            });
+//             //Get the list of employees list for choices
+//             const roleList = data.map(role => {
+//                 return { name: role.title, value: role.id };
+//             });
 
-            //Array of question for list of employee 
-            const updateEmpQuestion = [
-                {
-                    //Question for list of employee
-                    type: "list", 
-                    name: "updateEmp",
-                    message: "Which employee would you like to update their role?",
-                    choices: empList
-                },
-                {
-                    //Question for list of role to update
-                    type: "list",
-                    name: "listRole", 
-                    message: "What role do you want to update for this employee?", 
-                    choices: roleList
-                }
-            ];
+//             //Prompt user for updating the employee role, then it is updated to the database 
+//             inquirer.prompt(prompts.updateEmpRole(empList, roleList)).then(response => {
 
-            //Prompt user for updating the employee role, then it is updated to the database 
-            inquirer.prompt(updateEmpQuestion).then(response => {
+//                 //Connect to employee_db database
+//                 connection.query(queryUpdateEmpRole, [response.listRole,response.updateEmp], err => {
 
-                //Connect to employee_db database
-                connection.query(queryUpdateEmpRole, [response.listRole,response.updateEmp], err => {
+//                     //If error exist, display the error
+//                     if (err) console.log(err);
 
-                    //If error exist, display the error
-                    if (err) console.log(err);
+//                     //Display 
+//                     console.log(`${response.updateEmp} is updated to a new role`);
 
-                    //Display 
-                    console.log(`${response.updateEmp} is updated to a new role`);
-
-                    //Call the function to prompt user with menu selection
-                    promptMenuSelection();
-                });
-            });
-        });
-    });
-};
+//                     //Call the function to prompt user with menu selection
+//                     promptMenuSelection();
+//                 });
+//             });
+//         });
+//     });
+// };
 
 //Function to update employee's manager 
-const updateEmployeeManager = () => {
+// const updateEmployeeManager = () => {
 
-    //Query for updating employee role 
-    const queryUpdateEmpManager = "UPDATE employee SET manager_id = ? WHERE id = ?";
+//     //Query for updating employee role 
+//     const queryUpdateEmpManager = "UPDATE employee SET manager_id = ? WHERE id = ?";
 
-    //Connect to employee_db to get a list of employee names
-    connection.query(queryEmployee, (err, data) => {
+//     //Connect to employee_db to get a list of employee names
+//     connection.query(queryEmployee, (err, data) => {
         
-        //If error exist, display the error
-        if (err) console.log(err);
+//         //If error exist, display the error
+//         if (err) console.log(err);
 
-        //Get the list of employees list for choices
-        const empList = data.map(emp => {
-            return { name: emp.first_name + " " + emp.last_name, value: emp.id };
-        });
+//         //Get the list of employees list for choices
+//         const empList = data.map(emp => {
+//             return { name: emp.first_name + " " + emp.last_name, value: emp.id };
+//         });
 
-        //Array of question to update employee manager 
-        const updateManagerQuestion = [
-            {
-                //Question for which employee to update
-                type: "list", 
-                name: "updateManager", 
-                message: "Which employee would you like to update the manager?",
-                choices: empList
-            },
-            {
-                //Question for list of manager 
-                type: "list", 
-                name: "newManager", 
-                message: "Who is the employee's new manager?",
-                choices: empList
-            }
-        ];
-
-        //Prompt user for updating manager, then it updates the employee new manager
-        inquirer.prompt(updateManagerQuestion).then(response => {
+//         //Prompt user for updating manager, then it updates the employee new manager
+//         inquirer.prompt(prompts.updateEmpManager(empList)).then(response => {
             
-            //If manager id is null, it will set it to that employee's id
-            if (response.newManger === null) response.newManager === response.updateManager;
+//             //If manager id is null, it will set it to that employee's id
+//             if (response.newManger === null) response.newManager === response.updateManager;
 
-            //Connect to the employee_db
-            connection.query(queryUpdateEmpManager, [response.newManager, response.updateManager], err => {
+//             //Connect to the employee_db
+//             connection.query(queryUpdateEmpManager, [response.newManager, response.updateManager], err => {
 
-                //If error exist, display error
-                if (err) console.log(err);
+//                 //If error exist, display error
+//                 if (err) console.log(err);
 
-                //Display message that employee's new manager is updated
-                console.log(`${response.updateManager} is updated to a new manager`);
+//                 //Display message that employee's new manager is updated
+//                 console.log(`${response.updateManager} is updated to a new manager`);
 
-                //Call the function to prompt user with menu selection
-                promptMenuSelection();
-            });
-        });
-    });
-};
+//                 //Call the function to prompt user with menu selection
+//                 promptMenuSelection();
+//             });
+//         });
+//     });
+// };
 
 //Function to add a department
 const addDepartment = () => {
@@ -451,18 +395,8 @@ const addDepartment = () => {
     //Query to add a department 
     const queryAddDept = "INSERT INTO department SET name = ?";    
 
-    //Array of question for adding department 
-    const addDeptQuestion = [
-        {
-            //Question for adding department
-            type: "input", 
-            name: "addDept", 
-            message: "What department would you like to add?"
-        }
-    ];
-
     //Prompt user for adding department, then it is added to department table 
-    inquirer.prompt(addDeptQuestion).then(response => {
+    inquirer.prompt(promptQuestion.addDept()).then(response => {
 
         //Connect to employee_db database
         connection.query(queryAddDept, response.addDept, err => {
